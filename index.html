@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glenn Dawson · Reset-U Business Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy-dark:#0B1A2B;--navy-mid:#142845;--navy-card:#1a3255;
+  --orange:#E87722;--blue-mid:#4A7FA5;--green:#22C55E;--yellow:#F59E0B;--red:#DC2626;--purple:#8B5CF6;
+  --text-primary:#E8EDF5;--text-muted:#7C93B8;--border:#1F3355;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--navy-dark);color:var(--text-primary);line-height:1.6;font-size:15px}
+
+/* TABS */
+.tab-bar{position:sticky;top:0;z-index:200;background:rgba(8,19,32,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 32px}
+.tab-inner{max-width:1100px;margin:0 auto;display:flex;gap:8px;align-items:center;padding:10px 0}
+.tab-brand{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--orange);margin-right:auto}
+.tab-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;background:transparent;color:var(--text-muted);border:1px solid var(--border);border-radius:8px;padding:9px 14px;cursor:pointer;display:flex;gap:8px;align-items:center}
+.tab-btn.active{background:var(--navy-mid);color:#fff;border-color:var(--orange)}
+.tab-badge{font-size:9px;padding:2px 6px;border-radius:4px;letter-spacing:1px}
+.tab-badge.loom{background:rgba(34,197,94,.15);color:#4ade80}
+.tab-badge.internal{background:rgba(220,38,38,.15);color:#f87171}
+.panel{display:none}
+.panel.active{display:block}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0B1A2B 0%,#0f2240 60%,#0d1e38 100%);border-bottom:1px solid var(--border);padding:56px 32px 40px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(232,119,34,.08) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto}
+.hero-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,6vw,72px);letter-spacing:1px;color:#fff;line-height:1;margin-bottom:8px}
+.hero-subtitle{font-size:16px;color:var(--text-muted);margin-bottom:28px;font-weight:500}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:4px;font-weight:500}
+.tag.stage{background:rgba(74,127,165,.2);color:#7ab4d4;border:1px solid rgba(74,127,165,.3)}
+.tag.fit{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
+.tag.urgency{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.25)}
+.tag.flag{background:rgba(220,38,38,.15);color:#f87171;border:1px solid rgba(220,38,38,.25)}
+.tag.script{background:rgba(139,92,246,.15);color:#a78bfa;border:1px solid rgba(139,92,246,.25)}
+.hero-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px}
+.stat-box{background:rgba(20,40,69,.7);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+.stat-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+.stat-value{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.5px;line-height:1}
+.stat-sub{font-size:11px;color:var(--text-muted);margin-top:4px}
+.orange{color:var(--orange)}.green{color:var(--green)}.blue{color:#7ab4d4}.yellow{color:var(--yellow)}.white{color:#fff}.red{color:#f87171}
+
+/* SECTION NAV */
+.sec-nav{background:rgba(11,26,43,.95);border-bottom:1px solid var(--border);padding:0 32px}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-link{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);text-decoration:none;padding:14px 14px;white-space:nowrap;border-bottom:2px solid transparent}
+.nav-link:hover{color:#fff;border-bottom-color:var(--orange)}
+
+/* SECTIONS */
+.section{max-width:1100px;margin:0 auto;padding:56px 32px;border-bottom:1px solid var(--border);scroll-margin-top:70px}
+.section-header{margin-bottom:28px}
+.section-number{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:.5px;color:#fff}
+.section-desc{font-size:14px;color:var(--text-muted);margin-top:6px;max-width:680px}
+.sub-head{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin:32px 0 14px}
+
+/* CARDS */
+.card{background:var(--navy-card);border:1px solid var(--border);border-radius:12px;padding:22px 24px;position:relative}
+.card.green-left{border-left:3px solid var(--green)}
+.card.orange-left{border-left:3px solid var(--orange)}
+.card.red-left{border-left:3px solid var(--red)}
+.card.yellow-left{border-left:3px solid var(--yellow)}
+.card.blue-left{border-left:3px solid var(--blue-mid)}
+.card.purple-left{border-left:3px solid var(--purple)}
+.card-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:.2px}
+.card-text{font-size:14px;color:#a8b8d1;line-height:1.65}
+.card-text strong{color:#e8edf5;font-weight:600}
+.card-text ul{padding-left:18px;margin-top:6px}
+.card-text li{margin-bottom:5px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.stack>*{margin-bottom:14px}
+
+/* QUOTE */
+.quote-pull{border-left:3px solid var(--orange);padding:14px 20px;background:rgba(232,119,34,.06);border-radius:0 8px 8px 0;margin:16px 0;font-size:14px;color:#dbe5f0;font-style:italic;line-height:1.7}
+.quote-attr{font-style:normal;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-top:8px;display:block}
+
+/* BARS */
+.bars{display:flex;align-items:flex-end;gap:14px;height:150px;padding:10px 4px 0;border-bottom:1px solid var(--border)}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.bar{width:100%;max-width:56px;border-radius:6px 6px 0 0;background:var(--blue-mid)}
+.bar.peak{background:var(--orange)}
+.bar.low{background:var(--red)}
+.bar-val{font-family:'DM Mono',monospace;font-size:11px;color:#dbe5f0;margin-bottom:6px}
+.bar-labels{display:flex;gap:14px;padding:6px 4px 0}
+.bar-labels span{flex:1;text-align:center;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase}
+
+/* FLOW */
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin:8px 0 6px}
+.flow-step{flex:1;min-width:130px;background:var(--navy-card);border:1px solid var(--border);border-radius:10px;padding:14px 14px}
+.flow-step.bad{border-color:rgba(220,38,38,.45);background:rgba(220,38,38,.07)}
+.flow-step.good{border-color:rgba(34,197,94,.45);background:rgba(34,197,94,.06)}
+.flow-step.key{border-color:rgba(232,119,34,.55);background:rgba(232,119,34,.08)}
+.flow-k{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+.flow-t{font-size:13px;font-weight:700;color:#fff;line-height:1.35}
+.flow-d{font-size:12px;color:#a8b8d1;margin-top:4px;line-height:1.45}
+.flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--orange);font-size:20px;padding:0 6px;font-weight:700}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--navy-card)}
+.pitch-table{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
+.pitch-table th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);background:rgba(20,40,69,.6)}
+.pitch-table td{padding:12px 16px;color:#a8b8d1;border-bottom:1px solid rgba(31,51,85,.6);vertical-align:top;line-height:1.55}
+.pitch-table tr:last-child td{border-bottom:none}
+.pitch-table td:first-child{color:#e8edf5;font-weight:600}
+.pitch-table td em{color:#dbe5f0}
+
+/* BADGES */
+.badge{display:inline-block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:4px;font-weight:500;white-space:nowrap}
+.badge.pass{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
+.badge.warn{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.25)}
+.badge.fail{background:rgba(220,38,38,.15);color:#f87171;border:1px solid rgba(220,38,38,.25)}
+.badge.info{background:rgba(74,127,165,.15);color:#7ab4d4;border:1px solid rgba(74,127,165,.25)}
+.badge.creative{background:rgba(139,92,246,.15);color:#a78bfa;border:1px solid rgba(139,92,246,.25)}
+
+/* FUNNEL CARDS */
+.fcard{background:var(--navy-card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px}
+.fcard-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:8px}
+.fcard-title{font-weight:700;color:#fff;font-size:15px}
+.fcard-url{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted)}
+.fcard-url a{color:#7ab4d4;text-decoration:none}
+.fcard .card-text{margin-top:4px}
+.verdict{font-size:13px;margin-top:10px;padding-left:12px;border-left:2px solid var(--orange);color:#dbe5f0}
+.verdict strong{color:var(--orange)}
+
+/* DIAG */
+.diag-card{background:var(--navy-card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;display:flex;gap:20px;align-items:flex-start;margin-bottom:12px}
+.diag-card.p1{border-left:4px solid var(--red)}
+.diag-card.p2{border-left:4px solid var(--orange)}
+.diag-card.p3{border-left:4px solid var(--yellow)}
+.diag-card.ok{border-left:4px solid var(--green)}
+.diag-rank{font-family:'Bebas Neue',sans-serif;font-size:22px;min-width:40px;line-height:1;margin-top:2px}
+.diag-card.p1 .diag-rank{color:var(--red)}
+.diag-card.p2 .diag-rank{color:var(--orange)}
+.diag-card.p3 .diag-rank{color:var(--yellow)}
+.diag-card.ok .diag-rank{color:var(--green)}
+.diag-title{font-weight:700;font-size:15px;color:#fff;margin-bottom:6px}
+.diag-desc{font-size:14px;color:#a8b8d1;line-height:1.65;margin-bottom:8px}
+.diag-fix{font-size:13px;color:#9fb1cc;padding-left:12px;border-left:2px solid var(--border);line-height:1.6}
+.diag-fix strong{color:var(--orange)}
+
+/* COI */
+.coi{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;background:linear-gradient(135deg,rgba(220,38,38,.10) 0%,rgba(20,40,69,.85) 100%);border:1px solid rgba(220,38,38,.35);border-radius:14px;padding:24px 28px;margin-bottom:24px}
+.coi-num{font-family:'Bebas Neue',sans-serif;font-size:46px;line-height:1;color:#f87171}
+.coi-lab{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-top:6px}
+.coi-vs{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text-muted)}
+.coi-note{font-size:13px;color:#a8b8d1;margin-top:10px;grid-column:1/-1}
+
+/* EQUATION */
+.equation{background:linear-gradient(135deg,rgba(232,119,34,.12) 0%,rgba(20,40,69,.85) 100%);border:1px solid rgba(232,119,34,.35);border-radius:14px;padding:24px 28px;margin-top:20px}
+.eq-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:10px 0}
+.eq-box{background:rgba(11,26,43,.6);border:1px solid var(--border);border-radius:10px;padding:10px 16px;text-align:center}
+.eq-big{font-family:'Bebas Neue',sans-serif;font-size:30px;color:#fff;line-height:1}
+.eq-small{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-top:4px}
+.eq-op{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--orange)}
+
+/* HOOKS */
+.hook-list{list-style:none;counter-reset:h}
+.hook-list li{counter-increment:h;background:var(--navy-card);border:1px solid var(--border);border-radius:10px;padding:12px 16px 12px 52px;margin-bottom:8px;position:relative;font-size:14px;color:#dbe5f0}
+.hook-list li::before{content:counter(h,decimal-leading-zero);position:absolute;left:16px;top:12px;font-family:'DM Mono',monospace;font-size:12px;color:var(--orange)}
+.hook-meta{display:block;font-size:12px;color:var(--text-muted);margin-top:3px}
+.copy-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;background:var(--orange);color:#0B1A2B;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:500}
+.copy-btn.done{background:var(--green)}
+
+/* PLAN */
+.phase-head{font-family:'Bebas Neue',sans-serif;font-size:24px;color:#fff;margin:28px 0 12px;letter-spacing:.5px}
+.phase-head span{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;color:var(--orange);margin-left:10px;text-transform:uppercase}
+.plan-item{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:var(--navy-card);border:1px solid var(--border);border-radius:10px;margin-bottom:10px}
+.plan-number{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--orange);min-width:32px;line-height:1;margin-top:2px}
+.plan-title{font-weight:700;font-size:14px;color:#fff;margin-bottom:4px}
+.plan-desc{font-size:14px;color:#a8b8d1;line-height:1.6}
+.plan-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.plan-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:4px;font-weight:500}
+.plan-tag.sales{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
+.plan-tag.ops{background:rgba(74,127,165,.15);color:#7ab4d4;border:1px solid rgba(74,127,165,.2)}
+.plan-tag.ads{background:rgba(232,119,34,.15);color:#fb923c;border:1px solid rgba(232,119,34,.2)}
+.plan-tag.creative{background:rgba(139,92,246,.15);color:#a78bfa;border:1px solid rgba(139,92,246,.2)}
+.plan-tag.offer{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.2)}
+.plan-tag.cash{background:rgba(220,38,38,.15);color:#f87171;border:1px solid rgba(220,38,38,.2)}
+
+/* INTEL */
+.intel-block{background:rgba(20,40,69,.5);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:14px}
+.intel-source{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
+.intel-text{font-size:14px;color:#a8b8d1;line-height:1.65}
+.intel-text strong{color:#e8edf5}
+.intel-text ul{padding-left:18px;margin-top:6px}
+.intel-text li{margin-bottom:5px}
+.risk-banner{background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.35);border-radius:12px;padding:18px 22px;margin-top:24px}
+.risk-banner .intel-source{color:#f87171}
+
+/* OBJECTIONS */
+.obj-row{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:12px;margin-bottom:12px}
+.obj-box{background:var(--navy-card);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.obj-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:500}
+.obj-label.said{color:#f87171}.obj-label.meant{color:#fbbf24}.obj-label.reframe{color:#4ade80}
+.obj-text{font-size:14px;color:#a8b8d1;line-height:1.6}
+.obj-text strong{color:#e8edf5}
+
+/* LOOM */
+.loom-wrap{background:linear-gradient(135deg,rgba(232,119,34,.10) 0%,rgba(20,40,69,.85) 100%);border:1px solid rgba(232,119,34,.3);border-radius:14px;padding:24px 28px}
+.beat{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid rgba(31,51,85,.7)}
+.beat:last-child{border-bottom:none}
+.beat-time{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--orange);text-transform:uppercase}
+.beat-title{font-weight:700;color:#fff;font-size:14px;margin-bottom:4px}
+.beat-text{font-size:14px;color:#a8b8d1;line-height:1.6}
+.beat-text ul{padding-left:18px}
+
+footer{max-width:1100px;margin:0 auto;padding:32px 32px 48px;text-align:center}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--orange);margin-bottom:8px}
+.footer-text{font-size:12px;color:var(--text-muted)}
+
+@media(max-width:768px){
+  .tab-bar{padding:0 16px}
+  .tab-brand{display:none}
+  .hero{padding:36px 20px 32px}
+  .section{padding:40px 20px}
+  .sec-nav{padding:0 16px}
+  .grid-2,.grid-3,.obj-row{grid-template-columns:1fr}
+  .coi{grid-template-columns:1fr;text-align:center}
+  .flow{flex-direction:column}
+  .flow-arrow{transform:rotate(90deg);padding:4px 0}
+  .beat{grid-template-columns:1fr;gap:4px}
+}
+
+.tab-btn{padding:9px 14px}
+.hero-stats{margin-top:4px}
+</style>
+</head>
+<body>
+<div class="tab-bar"><div class="tab-inner">
+  <div class="tab-brand">IFCA Audit</div>
+  <button class="tab-btn active" id="btn-stand" onclick="switchTab('stand')">1 · Where You Stand</button>
+  <button class="tab-btn" id="btn-plan" onclick="switchTab('plan')">2 · The Game Plan</button>
+  <button class="tab-btn" id="btn-funnel" onclick="switchTab('funnel')">3 · Funnel Breakdown</button>
+  <button class="tab-btn" id="btn-creative" onclick="switchTab('creative')">4 · Creative + Compliance</button>
+</div></div>
+
+<div class="panel active" id="panel-stand"><div class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">IFCA Business Audit · Prepared for Glenn Dawson · October 2026</div>
+    <div class="hero-name">Glenn Dawson</div>
+    <div class="hero-subtitle">Founder, Reset-U · Las Vegas, NV · Co-owned with Dr. Brianna Dawson, DPT</div>
+    <div class="hero-tags">
+      <span class="tag stage">Advanced Stage</span>
+      <span class="tag flag">Primary: Positioning + Funnel Economics</span>
+      <span class="tag urgency">Cash Runway Under 1 Month</span>
+      <span class="tag fit">High Upside</span>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-box"><div class="stat-label">Monthly Revenue</div><div class="stat-value orange">~$27K</div><div class="stat-sub">Self-reported avg</div></div>
+      <div class="stat-box"><div class="stat-label">Active Clients</div><div class="stat-value green">51</div><div class="stat-sub">21 coached by Glenn</div></div>
+      <div class="stat-box"><div class="stat-label">Avg Rev / Client</div><div class="stat-value blue">~$530/mo</div><div class="stat-sub">$27K / 51</div></div>
+      <div class="stat-box"><div class="stat-label">Cash Reserves</div><div class="stat-value red">$3K</div><div class="stat-sub">Less than 1 month</div></div>
+      <div class="stat-box"><div class="stat-label">Goal</div><div class="stat-value white">$100K/mo</div><div class="stat-sub">3.7x current</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="situation">
+  <div class="section-header">
+    <div class="section-number">01 · Situation</div>
+    <div class="section-title">Where Reset-U Actually Stands</div>
+    <div class="section-desc">Built from your intake form, your Loom, a review of all five funnel pages you sent, your personal Instagram, and a competitive and Meta Ad Library research pass.</div>
+  </div>
+
+  <div class="quote-pull">"We basically have either an offer problem or a targeting issue and I need help... once we got them booked on a free call, they could not afford $97, so I don't know what's going on there."
+    <span class="quote-attr">Glenn Dawson, Loom to Jordan</span>
+  </div>
+
+  <div class="grid-2" style="margin-top:20px">
+    <div class="stack">
+      <div class="card orange-left">
+        <div class="card-title">Business Snapshot</div>
+        <div class="card-text">51 clients across Group ($150 to $497/mo) and Elite 1:1 ($797 to $1,997/mo), averaging about <strong>$530 per client per month</strong>. Team of three: Glenn (coaching, content, copy, vision, everything else), Dr. Brianna Dawson DPT (coaching, content) and Ross (nutrition, site, email, support, editing, socials). 12+ years in business with a claimed 3,000+ past clients.</div>
+      </div>
+      <div class="card blue-left">
+        <div class="card-title">How Clients Come In Today</div>
+        <div class="card-text">Referrals, win-backs and JV webinars to partner lists (the Stefan Georgi list page is the proof). Cold paid traffic on Facebook, Instagram and YouTube has not worked. Your best cold result: a live webinar that peaked at <strong>17 live attendees</strong>. They stayed to the end, but the people who booked calls could not afford the $97 kit.</div>
+      </div>
+      <div class="card red-left">
+        <div class="card-title">The Money Picture</div>
+        <div class="card-text">Reported monthly profit has slid from <strong>$22K in April to $12K in July</strong> and recovered to $18K in September. Current lifestyle plus business cost is about <strong>$29K/mo</strong>, with $3K in reserves and business and personal spending combined. You described it best: "gunslinging and surviving." This is the constraint that limits how much you can test.</div>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <div class="card-title">Reported Monthly Profit, Apr to Sep 2026</div>
+        <div class="bars">
+          <div class="bar-col"><div class="bar-val">$22K</div><div class="bar peak" style="height:88%"></div></div>
+          <div class="bar-col"><div class="bar-val">$16.5K</div><div class="bar" style="height:66%"></div></div>
+          <div class="bar-col"><div class="bar-val">$16K</div><div class="bar" style="height:64%"></div></div>
+          <div class="bar-col"><div class="bar-val">$12K</div><div class="bar low" style="height:48%"></div></div>
+          <div class="bar-col"><div class="bar-val">$16K</div><div class="bar" style="height:64%"></div></div>
+          <div class="bar-col"><div class="bar-val">$18K</div><div class="bar" style="height:72%"></div></div>
+        </div>
+        <div class="bar-labels"><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span></div>
+        <div class="card-text" style="margin-top:12px;font-size:13px">$31.5K below April's pace over five months. To confirm on the call: whether these are profit or revenue figures.</div>
+      </div>
+      <div class="card green-left">
+        <div class="card-title">What Is Already Working</div>
+        <div class="card-text"><ul>
+          <li><strong>Delivery and results.</strong> 12 years, 70+ recorded client case-study interviews, and clients like Stefan Georgi, Tanner Larsson and Justin Sardi.</li>
+          <li><strong>The pre-call assessment.</strong> When prospects send the broomstick squat test before the call and you mark it up "John Madden style," more of them book <em>and</em> show. It takes you 2 to 3 minutes. This is your best conversion lever.</li>
+          <li><strong>Warm webinars.</strong> JV webinars to qualified lists convert, and cold attendees who show stay to the end.</li>
+          <li><strong>A real credential.</strong> A Doctor of Physical Therapy co-owner is something almost no online fitness competitor has.</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="constraints">
+  <div class="section-header">
+    <div class="section-number">02 · Constraint Diagnosis</div>
+    <div class="section-title">What Is Actually Blocking $100K Months</div>
+    <div class="section-desc">Ranked by priority. P1 means growth is structurally blocked until it's fixed. You asked whether it's an offer problem or a targeting problem. It's both, and they're connected.</div>
+  </div>
+
+  <div class="coi">
+    <div><div class="coi-num">$6.3K</div><div class="coi-lab">Avg monthly gap vs. April's pace</div></div>
+    <div class="coi-vs">x 3 months =</div>
+    <div><div class="coi-num">~$19K</div><div class="coi-lab">Cost of inaction, next 90 days</div></div>
+    <div class="coi-note">Cost of inaction, based on Glenn's reported profit trend (April $22K versus the May to September average of $15.7K). This doesn't count the bigger gap: every month at ~$27K is about $73K short of the $100K goal.</div>
+  </div>
+
+  <div class="diag-card p1">
+    <div class="diag-rank">P1</div>
+    <div><div class="diag-title">Offer + Positioning: You're Selling to the Wrong Room</div>
+    <div class="diag-desc">Your form describes entrepreneurs, executives and ex-athletes. Your funnels speak to "busy parents 35+" dealing with pain, weight, hormones and (in your words) "autoimmune disorders and stuff like that." Your ads targeted people with a specific pain. That message attracts people looking for relief at the lowest price, which is why calls end in "I can't afford $97." <strong>That isn't a price objection. It's a targeting result.</strong> Stefan's list converts because it's full of the people your form describes.</div>
+    <div class="diag-fix"><strong>Fix:</strong> One primary avatar for paid traffic (high-performing professionals 35 to 55 who want to train, travel and perform without breaking down), with the women's body-composition lane run as a separate campaign. Hormones and autoimmune stay in your coaching, not your marketing.</div></div>
+  </div>
+
+  <div class="diag-card p1">
+    <div class="diag-rank">P1</div>
+    <div><div class="diag-title">Funnel Economics: The Front End Sells $1 to $129, So Ads Can Never Pay Back</div>
+    <div class="diag-desc">Every cold path ends in a $1 trial ($197/mo after) or a $129 kit. Even a great ad can't be profitable when the first sale is $129 and there's no built-in path up to $497 to $1,997 a month. On top of that, the live webinar has a poor show rate, five funnels run at once with stale dates, and no single number tells you what's working.</div>
+    <div class="diag-fix"><strong>Fix:</strong> Make the free movement screen the front door and a 6-month program the first sale (Game Plan tab, Step 2). Judge ads by cost per qualified booked call, not cost per lead.</div></div>
+  </div>
+
+  <div class="diag-card p1">
+    <div class="diag-rank">P1</div>
+    <div><div class="diag-title">Cash + Numbers: Under One Month of Runway</div>
+    <div class="diag-desc">$3K in reserves, about $29K a month in combined personal and business costs, and accounts that aren't separated. You can't run a disciplined ad test, hire, or invest in growth from a survival position, and decisions get made month to month.</div>
+    <div class="diag-fix"><strong>Fix:</strong> A 30-day cash campaign built on what already works (JV webinar, past-client win-back, paid-in-full upgrades), separate bank accounts, and a simple weekly numbers tracker.</div></div>
+  </div>
+
+  <div class="diag-card p2">
+    <div class="diag-rank">P2</div>
+    <div><div class="diag-title">Meta Compliance: The Current Copy Puts the Ad Account at Risk</div>
+    <div class="diag-desc">"Eliminate chronic pain in 4 weeks," "increase sex hormone production," "fired their chiropractor and improved bloodwork in 30 days," and "complete elimination of pain" are timed health outcomes and medical claims. Meta reviews the ad and the landing page together. These lines can get ads rejected, push up CPMs, or get the account restricted before you ever learn whether the offer works.</div>
+    <div class="diag-fix"><strong>Fix:</strong> Rewrite every page that receives paid traffic before relaunching ads (the swap table is in the Creative + Compliance tab).</div></div>
+  </div>
+
+  <div class="diag-card p2">
+    <div class="diag-rank">P2</div>
+    <div><div class="diag-title">Capacity: Glenn Is the Product, the Marketer and the Bottleneck</div>
+    <div class="diag-desc">Client work all day Monday and Tuesday, 21 personal clients, workouts written during nap time on Saturdays, and Ross covering six roles. More leads would hit a ceiling within weeks. Meanwhile your most valuable credential, Brianna's DPT, is barely visible in the marketing.</div>
+    <div class="diag-fix"><strong>Fix:</strong> Brianna becomes the face of the movement screen and the authority in the ads. A coach takes over Group delivery. Workout templates and an AI content system give Glenn his Saturdays back.</div></div>
+  </div>
+
+  <div class="diag-card p3">
+    <div class="diag-rank">P3</div>
+    <div><div class="diag-title">Organic Profile: A Strong Account with No Clear Next Step</div>
+    <div class="diag-desc">@realglenndawson is verified, with 5,158 followers and 1,044 posts, but the bio link still points to <strong>/summer-shred</strong>, there's no DM keyword, it follows more accounts than follow it (5,730), most highlights are pets and food, and the pinned posts are physique shots rather than proof or the method. The content mixes physique, recipes, motivation and exercise tips with no clear lane.</div>
+    <div class="diag-fix"><strong>Fix:</strong> A new bio with the R3 promise, a DM keyword ("SCREEN"), the link to the movement screen, highlights for Results, The Screen and Meet Dr. Brianna, and a pinned client story.</div></div>
+  </div>
+
+  <div class="diag-card ok">
+    <div class="diag-rank">OK</div>
+    <div><div class="diag-title">Product, Proof and the Assessment: This Is the Engine</div>
+    <div class="diag-desc">Clients stay, the results are real, and the proof library (70+ interviews) is deeper than most 7-figure coaches have. Your own data already shows that people who complete the squat assessment before a call book and show at a higher rate. Warm audiences convert. Nothing here needs reinventing. It needs to be put in the right order.</div>
+    <div class="diag-fix"><strong>Bottom line:</strong> "Your delivery isn't the problem. The problem is who sees it, what they're offered first, and what you're allowed to say in an ad."</div></div>
+  </div>
+</div>
+
+<footer><div class="footer-logo">IFCA · Impact Fitness Coaching Academy</div><div class="footer-text">Business Audit: Glenn Dawson / Reset-U · October 2026</div></footer>
+</div>
+<div class="panel" id="panel-plan"><div class="hero" style="padding:40px 32px 28px"><div class="hero-inner">
+  <div class="hero-label">Glenn Dawson · Reset-U · IFCA Business Audit</div>
+  <div class="hero-name" style="font-size:clamp(34px,4.5vw,52px)">The Game Plan</div>
+  <div class="hero-subtitle" style="margin-bottom:0">Recoup cash, rebuild the funnel, run partner webinars, then scale with ads.</div></div></div>
+<div class="section" id="plan-intro" style="padding-bottom:24px">
+  <div class="section-header">
+    <div class="section-number">The Game Plan</div>
+    <div class="section-title">Four Moves, In This Order</div>
+    <div class="section-desc">Cash first, because it funds everything else. Then the funnel rebuild, then partner webinars every month, then paid ads on top of a funnel that's already proven.</div>
+  </div>
+  <div class="flow">
+    <div class="flow-step key"><div class="flow-k">Step 1 · Now</div><div class="flow-t">Recoup cash fast</div><div class="flow-d">Black Friday, backend resell, past-client win-back</div></div>
+    <div class="flow-arrow">&rsaquo;</div>
+    <div class="flow-step"><div class="flow-k">Step 2 · Days 1 to 30</div><div class="flow-t">Rebuild the funnel</div><div class="flow-d">Screen-First funnel, one offer, one avatar</div></div>
+    <div class="flow-arrow">&rsaquo;</div>
+    <div class="flow-step"><div class="flow-k">Step 3 · Monthly</div><div class="flow-t">JV webinars</div><div class="flow-d">The Stefan page as a repeatable template</div></div>
+    <div class="flow-arrow">&rsaquo;</div>
+    <div class="flow-step good"><div class="flow-k">Step 4 · Days 31+</div><div class="flow-t">Scale with ads</div><div class="flow-d">Compliant creative on a funnel that already converts</div></div>
+  </div>
+</div>
+<div class="section" id="cash">
+  <div class="section-header">
+    <div class="section-number">Step 1 · Recoup Cash Fast</div>
+    <div class="section-title">Get Cash Back in the Business in the Next 60 Days</div>
+    <div class="section-desc">Three campaigns that use your audience equity, your 3,000-person past-client list and your 51 current clients. None of them need new ads. Black Friday is November 27, which gives you six weeks to prepare.</div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card orange-left">
+      <div class="card-title">1 · Black Friday Promo <span class="badge warn" style="margin-left:6px">Nov 2026</span></div>
+      <div class="card-text">The easiest time of year to enroll new clients and re-sign current ones. No discounts. Stack value and lock in longer commitments: "Pay for 24 weeks, get 4 weeks free." Launch early, run through Cyber Monday, and hit every lead in the pipeline: no-closes, no-shows, past clients, referrals.<br><br><a href="https://docs.google.com/presentation/d/1YhYt75xKlHHEJEVTVqemfz7zsv-wgNQ567LIdOESbwc/edit?usp=sharing" target="_blank" rel="noopener" style="color:#fb923c">IFCA Black Friday Playbook &rsaquo;</a></div>
+    </div>
+    <div class="card green-left">
+      <div class="card-title">2 · Backend Resell Promo <span class="badge pass" style="margin-left:6px">With Black Friday</span></div>
+      <div class="card-text">Your fastest cash. Three plays for the 51 current clients: (a) clients up for renewal in Nov or Dec re-sign for 24 weeks and get 4 free; (b) clients mid-contract get the same offer early; (c) clients on payment plans pay off the balance for 10 to 20% off. The Elite tier at $797 to $1,997/mo is where this pays most.<br><br>Covered in the Black Friday Playbook, "How to Pitch to Current Clients."</div>
+    </div>
+    <div class="card purple-left">
+      <div class="card-title">3 · Scholarship Campaign <span class="badge info" style="margin-left:6px">Jan 2027</span></div>
+      <div class="card-text">A 7-day launch that gives away one full scholarship to the R3 program and then offers partial scholarships (30 to 50% off a price anchor) to a handful of applicants. It wakes up "maybe" prospects, fills your DMs, and loads the follow-up pipeline. Run it the second week of January to catch the New Year wave.<br><br><a href="https://docs.google.com/document/d/1K99Vy8K4c2_K7mt_SEPiMRdDWnLi7jGUa84vL2jYC5Y/edit?usp=sharing" target="_blank" rel="noopener" style="color:#a78bfa">IFCA Scholarship Playbook &rsaquo;</a></div>
+    </div>
+  </div>
+
+  <div class="sub-head">Plus: the JV webinar, monthly</div>
+  <div class="card blue-left">
+    <div class="card-text">Your Stefan Georgi page is the template. Pick one partner a month from the DR copywriter and entrepreneur network, swap the name and date, and pitch the <strong>paid movement screen</strong> at the end (Step 2, warm path). Starting in November, add the Black Friday bonus stack to the pitch.</div>
+  </div>
+
+  <div class="sub-head">Cash calendar</div>
+  <div class="tbl-wrap">
+    <table class="pitch-table">
+      <thead><tr><th>When</th><th>Campaign</th><th>Who it targets</th><th>Rough cash potential</th></tr></thead>
+      <tbody>
+        <tr><td>Oct 13 to Nov 9</td><td>Prep: offer stack, bonuses, Canva posts, email and SMS sequences, client outreach list. Fix the offer and the pricing inconsistencies first (see Where You Stand).</td><td>Internal</td><td>n/a</td></tr>
+        <tr><td>Week of Oct 20</td><td>JV webinar #1 with paid screen pitch</td><td>Partner list</td><td>5 to 10 screens, 2 to 4 programs</td></tr>
+        <tr><td>Nov 10 to 16</td><td>Early release to current clients and past-client list: resell promo and early pay-off</td><td>51 current, 3,000 past</td><td>Highest-value play. 10 re-signs at 24 weeks on Group is ~$60K contracted; Elite re-signs scale from there.</td></tr>
+        <tr><td>Nov 17 to Nov 29</td><td>Black Friday public launch (Nov 27) through the weekend. Daily posts, stories, pipeline follow-up.</td><td>Audience, pipeline, referrals</td><td>5 to 15 new programs</td></tr>
+        <tr><td>Nov 30 (Cyber Monday)</td><td>Free movement screen promo (the playbook's "Free Assessment" play). Fills the January call calendar.</td><td>Audience and new leads</td><td>Pipeline for January</td></tr>
+        <tr><td>Jan 11 to 17, 2027</td><td>Scholarship campaign: 1 full ride, 5 partials</td><td>Audience, scholarship applicants, old leads</td><td>5 partials at a 30 to 50% discount off the anchor</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-text" style="margin-top:12px;font-size:13px">The cash numbers are illustrative and depend on your close rates and the final program price. The point is sequencing: Black Friday and the resell promo fund the funnel rebuild, Cyber Monday fills January's calendar, and the scholarship converts the leftover "maybes."</div>
+</div>
+
+<div class="section" id="newfunnel">
+  <div class="section-header">
+    <div class="section-number">Step 2 · Rebuild the Funnel</div>
+    <div class="section-title">The Screen-First Funnel</div>
+    <div class="section-desc">Built on the one thing your own data says works: people who send the squat test before the call book more and show more. Move it from a pre-call extra to the front door.</div>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step"><div class="flow-k">1 · Ad</div><div class="flow-t">"Send us your 18-second squat"</div><div class="flow-d">Screen demo, DPT markup, founder proof</div></div>
+    <div class="flow-arrow">&rsaquo;</div>
+    <div class="flow-step key"><div class="flow-k">2 · Opt-in</div><div class="flow-t">Free movement screen</div><div class="flow-d">Upload video plus 5 qualifying questions (role, goal, timeline, budget readiness)</div></div>
+    <div class="flow-arrow">&rsaquo;</div>
+    <div class="flow-step"><div class="flow-k">3 · Thank-you page</div><div class="flow-t">10-min R3 training + calendar</div><div class="flow-d">The 10-min video you've been avoiding goes here</div></div>
+    <div class="flow-arrow">&rsaquo;</div>
+    <div class="flow-step key"><div class="flow-k">4 · Before the call</div><div class="flow-t">3-min Madden-style Loom</div><div class="flow-d">From Glenn or Brianna. Drives show rate.</div></div>
+    <div class="flow-arrow">&rsaquo;</div>
+    <div class="flow-step good"><div class="flow-k">5 · Call</div><div class="flow-t">6-month R3 program</div><div class="flow-d">Paid in full or payment plan. Kit as the downsell only.</div></div>
+  </div>
+
+  <div class="grid-2" style="margin-top:20px">
+    <div class="card green-left">
+      <div class="card-title">Why this fixes "can't afford $97"</div>
+      <div class="card-text"><ul>
+        <li><strong>The qualifying questions filter people before the call</strong>, so you stop spending calls on people who were never buyers.</li>
+        <li><strong>The screen is a commitment step.</strong> Someone who films themselves squatting is far more serious than someone who registers for a webinar.</li>
+        <li><strong>The value is shown before the price.</strong> They see their own movement marked up by a DPT, so $4K for six months feels proportionate.</li>
+        <li><strong>On-demand beats live.</strong> No more single-date shows with a poor turnout.</li>
+      </ul></div>
+    </div>
+    <div class="card blue-left">
+      <div class="card-title">Capacity check</div>
+      <div class="card-text">At 2 to 3 minutes per screen, <strong>100 screens a month is about 4 to 5 hours</strong>. Split between Glenn and Brianna, it fits easily. It also gives Brianna a visible, front-facing role built around her DPT credential, which ties directly to your goal of giving her the role she wants.</div>
+    </div>
+  </div>
+
+  <div class="sub-head">Two entry points, one funnel</div>
+  <div class="grid-2">
+    <div class="card blue-left">
+      <div class="card-title">Cold traffic: free screen</div>
+      <div class="card-text">Ad &rsaquo; free screen (upload + 5 questions) &rsaquo; 10-minute R3 training + calendar &rsaquo; pre-call markup &rsaquo; review call. Cold prospects have never bought from you, so asking for a card on the first visit is where the volume dies. Filming the squat and answering the questions is already the commitment filter. The 10-minute video sits on the thank-you page, after the form, so it lifts show rate without blocking the opt-in.</div>
+    </div>
+    <div class="card orange-left">
+      <div class="card-title">Warm traffic: paid screen as a deposit</div>
+      <div class="card-text">JV webinar, past-client list or your own audience &rsaquo; pitch a <strong>$97 Movement Screen + Strategy Review</strong> at the end &rsaquo; review call &rsaquo; program. Position it as a deposit, not a product: "applied in full to your program when you enroll." Warm audiences already trust you, so a small paid ask works here and it recovers cost before the call. Keep the Reset Kit out of this path so there's one low-ticket step, not two.</div>
+    </div>
+  </div>
+  <div class="card-text" style="margin:12px 0 4px;font-size:13px">Same screen, same call, same program. Track each path separately: cost per screen, screen-to-call show rate, and close rate. Within 30 days you'll know which entry point produces cheaper qualified calls.</div>
+
+  <div class="sub-head">Unit economics: current vs. Screen-First</div>
+  <div class="tbl-wrap">
+    <table class="pitch-table">
+      <thead><tr><th>Metric</th><th>Current cold funnel</th><th>Screen-First (target)</th></tr></thead>
+      <tbody>
+        <tr><td>First sale from a cold lead</td><td>$1 trial or a $97 to $129 kit</td><td>6-month R3 program, about $4,000 (to validate)</td></tr>
+        <tr><td>Show rate</td><td>Live webinar "very poor" (per Loom)</td><td>70%+ booked calls, helped by the pre-call Loom</td></tr>
+        <tr><td>Close rate</td><td>Can't be measured; buyers can't afford $97</td><td>30%+ on qualified calls (IFCA benchmark)</td></tr>
+        <tr><td>Contracted value per booked call</td><td>Under $30</td><td>~$840 (0.70 x 0.30 x $4,000)</td></tr>
+        <tr><td>Max cost per booked call at 5x contracted ROAS</td><td>~$6</td><td>~$170</td></tr>
+        <tr><td>What ads are judged on</td><td>Clicks and registrations</td><td>Cost per qualified booked call, shows, and cash collected</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="equation">
+    <div class="card-title" style="font-size:15px">The $100K Equation</div>
+    <div class="eq-row">
+      <div class="eq-box"><div class="eq-big">~120</div><div class="eq-small">Booked calls / mo</div></div>
+      <div class="eq-op">x</div>
+      <div class="eq-box"><div class="eq-big">70%</div><div class="eq-small">Show</div></div>
+      <div class="eq-op">x</div>
+      <div class="eq-box"><div class="eq-big">30%</div><div class="eq-small">Close</div></div>
+      <div class="eq-op">=</div>
+      <div class="eq-box"><div class="eq-big">25</div><div class="eq-small">New clients / mo</div></div>
+      <div class="eq-op">x</div>
+      <div class="eq-box"><div class="eq-big">$4K</div><div class="eq-small">6-mo program</div></div>
+      <div class="eq-op">=</div>
+      <div class="eq-box" style="border-color:var(--orange)"><div class="eq-big orange">$100K</div><div class="eq-small">Contracted / mo</div></div>
+    </div>
+    <div class="card-text" style="font-size:13px">That's about 28 booked calls a week. Today Glenn takes 2 to 3. Getting there needs a setter or closer, which is part of the sales system below. A realistic first milestone is 8 to 10 new clients a month in the first 60 to 90 days.</div>
+  </div>
+</div>
+
+
+<div class="section" id="scale">
+  <div class="section-header">
+    <div class="section-number">Step 3 + Step 4 · Partner Webinars, Then Ads</div>
+    <div class="section-title">Scale What's Proven</div>
+  </div>
+  <div class="grid-2">
+    <div class="card blue-left">
+      <div class="card-title">Step 3 · One JV webinar a month</div>
+      <div class="card-text">Your Stefan Georgi page already works. Turn it into a template (swap the partner name and date), book one partner a month from your DR copywriter and entrepreneur network, and pitch the paid movement screen at the end. This is predictable warm cash while the cold funnel is being built and tested.</div>
+    </div>
+    <div class="card orange-left">
+      <div class="card-title">Step 4 · Paid ads, only after the funnel converts</div>
+      <div class="card-text">Once the Screen-First funnel is producing booked calls from warm traffic, launch the six creative entities in the Creative + Compliance tab: professional lane and body-composition lane as separate campaigns, 70/30 budget split, kill rules, and the ads judged on cost per qualified booked call. Every page that receives paid traffic gets the compliance rewrite first.</div>
+    </div>
+  </div>
+</div>
+<div class="section" id="roadmap">
+  <div class="section-header">
+    <div class="section-number">The 90-Day Roadmap</div>
+    <div class="section-title">The Order That Matters</div>
+    <div class="section-desc">Cash first, then compliance and the offer, then the funnel, then scale.</div>
+  </div>
+
+  <div class="phase-head">Days 1 to 30 <span>Stabilize + Rebuild</span></div>
+  <div class="plan-item"><div class="plan-number">1</div><div><div class="plan-title">Start the cash calendar (Step 1)</div><div class="plan-desc">Book JV webinar #1 for the week of October 20. Build the Black Friday offer stack and the client resell outreach list by November 9. Get the Black Friday and Scholarship playbooks into the team's hands this week.</div><div class="plan-tags"><span class="plan-tag cash">Cash</span><span class="plan-tag sales">Sales</span></div></div></div>
+  <div class="plan-item"><div class="plan-number">2</div><div><div class="plan-title">Separate the money and start tracking</div><div class="plan-desc">Open a dedicated business account, pay yourself a set amount, and fill in the Data Constraints Tracker every week: leads, booked calls, shows, closes, cash collected.</div><div class="plan-tags"><span class="plan-tag ops">Ops</span></div></div></div>
+  <div class="plan-item"><div class="plan-number">3</div><div><div class="plan-title">Lock in the offer and the avatar</div><div class="plan-desc">One R3 definition, one paid avatar, a 6-month program price, the Elite tier, and the Kit as a downsell. Retire the $1 trial for cold traffic. Fix every inconsistency in the Funnel Breakdown tab.</div><div class="plan-tags"><span class="plan-tag offer">Offer</span></div></div></div>
+  <div class="plan-item"><div class="plan-number">4</div><div><div class="plan-title">Compliance rewrite</div><div class="plan-desc">Apply the swap table in the Creative + Compliance tab to every page that will receive paid traffic. Move disease-related testimonials off ad destinations.</div><div class="plan-tags"><span class="plan-tag ads">Ads</span><span class="plan-tag creative">Creative</span></div></div></div>
+  <div class="plan-item"><div class="plan-number">5</div><div><div class="plan-title">Build the Screen-First funnel and fix the IG profile</div><div class="plan-desc">Opt-in with the upload and qualifying questions, a thank-you page with the 10-minute R3 training, the calendar, and the pre-call Loom process. Update the bio, set the DM keyword "SCREEN," rebuild the highlights and pin a client story.</div><div class="plan-tags"><span class="plan-tag ops">Ops</span><span class="plan-tag creative">Creative</span></div></div></div>
+
+  <div class="phase-head">Days 31 to 60 <span>Launch + Learn</span></div>
+  <div class="plan-item"><div class="plan-number">6</div><div><div class="plan-title">Film and launch the first 6 entities</div><div class="plan-desc">The six concepts in the Creative + Compliance tab, in 9:16 vertical, with Glenn as founder and Brianna as authority. Run the professional lane and the body-composition lane as separate campaigns. Apply the 70/30 budget split and kill rules.</div><div class="plan-tags"><span class="plan-tag ads">Ads</span><span class="plan-tag creative">Creative</span></div></div></div>
+  <div class="plan-item"><div class="plan-number">7</div><div><div class="plan-title">Install the call framework</div><div class="plan-desc">Walk through the screen on the call, then the R3 plan, then the 6-month investment. Review recordings with an IFCA sales coach every week.</div><div class="plan-tags"><span class="plan-tag sales">Sales</span></div></div></div>
+  <div class="plan-item"><div class="plan-number">8</div><div><div class="plan-title">Mine the 70 interviews into a proof vault</div><div class="plan-desc">Cut 10 policy-safe founder-proof clips focused on behavior, routine and capacity. Use them for retargeting, the pre-call nurture, and the Black Friday social-proof posts.</div><div class="plan-tags"><span class="plan-tag creative">Creative</span></div></div></div>
+  <div class="plan-item"><div class="plan-number">9</div><div><div class="plan-title">Run Black Friday and the backend resell promo (Nov 10 to Nov 30)</div><div class="plan-desc">Early release to current and past clients first, then the public launch through Cyber Monday. Close with the free movement screen promo on Cyber Monday to fill January's calendar. Follow the playbook's launch schedule day by day.</div><div class="plan-tags"><span class="plan-tag cash">Cash</span><span class="plan-tag sales">Sales</span></div></div></div>
+
+  <div class="phase-head">Days 61 to 90 <span>Scale What Works</span></div>
+  <div class="plan-item"><div class="plan-number">10</div><div><div class="plan-title">Scale the message, not the claim</div><div class="plan-desc">Take the winning hook and make new versions: travel, desk work, former athlete, founder proof. Scale only when at least 3 ads in an ad set pass the KPI benchmarks.</div><div class="plan-tags"><span class="plan-tag ads">Ads</span></div></div></div>
+  <div class="plan-item"><div class="plan-number">11</div><div><div class="plan-title">Scholarship campaign (week of Jan 11, 2027)</div><div class="plan-desc">One full scholarship, five partials. Use the Cyber Monday screen leads and every Black Friday "maybe" as the applicant pool. Follow the 7-day launch schedule in the Scholarship Playbook.</div><div class="plan-tags"><span class="plan-tag cash">Cash</span><span class="plan-tag sales">Sales</span></div></div></div>
+  <div class="plan-item"><div class="plan-number">12</div><div><div class="plan-title">Free up Glenn</div><div class="plan-desc">A coach takes over Group delivery, Brianna owns the screens, and Ross's roles are split. Bring in a setter or closer once booked calls pass about 10 a week.</div><div class="plan-tags"><span class="plan-tag ops">Ops</span><span class="plan-tag sales">Sales</span></div></div></div>
+</div>
+
+<div class="section" id="solutions">
+  <div class="section-header">
+    <div class="section-number">What We Build Together</div>
+    <div class="section-title">Every Gap, Mapped to What We Build</div>
+    <div class="section-desc">Each constraint in this audit, matched to the IFCA deliverable that fixes it.</div>
+  </div>
+  <div class="tbl-wrap">
+    <table class="pitch-table">
+      <thead><tr><th>Your constraint</th><th>IFCA deliverable</th><th>What it means for you in 30 days</th></tr></thead>
+      <tbody>
+        <tr><td>Selling to "busy parents" when your buyers are high performers. Hormones, autoimmune, pain and weight all in one message.</td><td>AI Offer Optimization: avatar, mechanism, promise and the R3 Core Marketing Thesis</td><td>One avatar, one promise, and one R3 definition used across every page, the IG bio and the ads</td></tr>
+        <tr><td>The front end sells $1 to $129, so ads can't pay back</td><td>Offer ladder rebuild: 6-month R3 program, Elite tier, Kit as a downsell, plus a backend continuity offer</td><td>A first sale worth about $4K instead of $129, and a clear path from Group to Elite</td></tr>
+        <tr><td>Live webinar with a poor show rate, five funnels and stale dates</td><td>Done-for-you Screen-First funnel on Impact AI (GHL): opt-in, qualifying questions, video upload, calendar, reminders</td><td>One evergreen cold funnel live within the first 2 weeks, with one dashboard to read</td></tr>
+        <tr><td>Paid ads have failed on every platform, and the copy is risky on Meta</td><td>Lead Generation Engine: compliant creative, Andromeda entity testing, Launch 50 / Run 10, kill rules, with the first month of ads covered by IFCA</td><td>Six policy-safe ads in market, judged by cost per qualified booked call</td></tr>
+        <tr><td>JV webinars work but happen randomly</td><td>Partner webinar system: a template page, an outreach list built from your DR marketing network, and a monthly cadence</td><td>One JV event on the calendar every month, as reliable cash</td></tr>
+        <tr><td>Glenn takes 2 to 3 calls a week and closes on his own</td><td>Sales Conversion System: call framework, a sales coach, and setter or closer hiring when volume justifies it</td><td>A repeatable call script built around the screen walkthrough</td></tr>
+        <tr><td>$3K reserves, mixed accounts, unclear numbers</td><td>Data Constraints Tracker and revenue equilibrium review</td><td>Separate accounts, weekly numbers, and a 30-day cash plan</td></tr>
+        <tr><td>Glenn is the bottleneck. Ross covers 6 roles, and Brianna's DPT is underused.</td><td>Delivery model redesign and the AI Content System</td><td>Brianna leads the screens, a coach handles Group delivery, and a week of content takes about 15 minutes</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer><div class="footer-logo">IFCA · Impact Fitness Coaching Academy</div><div class="footer-text">Business Audit: Glenn Dawson / Reset-U · October 2026 · Cash figures are illustrative; program price to be confirmed.</div></footer>
+</div>
+<div class="panel" id="panel-funnel"><div class="hero" style="padding:40px 32px 28px"><div class="hero-inner">
+  <div class="hero-label">Glenn Dawson · Reset-U · IFCA Business Audit</div>
+  <div class="hero-name" style="font-size:clamp(34px,4.5vw,52px)">Funnel Breakdown</div>
+  <div class="hero-subtitle" style="margin-bottom:0">Every page you sent, reviewed for message, offer, flow and consistency.</div></div></div><div class="section" id="funnels">
+  <div class="section-header">
+    <div class="section-number">Funnel Breakdown</div>
+    <div class="section-title">How to Optimize Your Funnel</div>
+    <div class="section-desc">Every funnel link you sent, reviewed for message, offer, flow and consistency. Verdicts: Keep, Fix, Move, or Kill.</div>
+  </div>
+
+  <div class="sub-head">How a cold lead moves through Reset-U today</div>
+  <div class="flow">
+    <div class="flow-step"><div class="flow-k">Ad</div><div class="flow-t">Client testimonial</div><div class="flow-d">Pain or weight story, targeted to people with that issue</div></div>
+    <div class="flow-arrow">&rsaquo;</div>
+    <div class="flow-step bad"><div class="flow-k">Event</div><div class="flow-t">Live webinar</div><div class="flow-d">25 to 60 min, one date, poor show rate, max 17 live</div></div>
+    <div class="flow-arrow">&rsaquo;</div>
+    <div class="flow-step"><div class="flow-k">Call</div><div class="flow-t">Free strategy call</div><div class="flow-d">No qualification on the way in</div></div>
+    <div class="flow-arrow">&rsaquo;</div>
+    <div class="flow-step bad"><div class="flow-k">Offer</div><div class="flow-t">$97 to $129 kit or $1 trial</div><div class="flow-d">"Can't afford $97"</div></div>
+    <div class="flow-arrow">&rsaquo;</div>
+    <div class="flow-step bad"><div class="flow-k">Result</div><div class="flow-t">No path to $497+</div><div class="flow-d">Ad spend can't be recovered</div></div>
+  </div>
+  <div class="card-text" style="margin:8px 0 24px;font-size:13px">The structure you borrowed (a Russell Ruffino style webinar) is built to sell a <strong>high-ticket program on a call</strong>. Your version sells a $97 product on the call, so the funnel does all the work of a high-ticket funnel for a low-ticket sale.</div>
+
+  <div class="fcard">
+    <div class="fcard-head"><div><div class="fcard-title">1 · Live Webinar (from ads)</div><div class="fcard-url"><a href="https://www.resetu.com/r3-method-live" target="_blank" rel="noopener">resetu.com/r3-method-live</a></div></div><span class="badge warn">Fix</span></div>
+    <div class="card-text"><ul>
+      <li>Headline: "How High Performers Are Resetting Their Metabolism, Movement, and Energy." The best headline in the set. It speaks to high performers, but the qualifier section then targets "busy parents 35+" and people with recurring pain, which pulls a different buyer.</li>
+      <li>The event date still says <strong>Tuesday, September 8</strong>, and there is no stated webinar length.</li>
+      <li>"Limited seats" with no cap, about 10 repeated CTAs and no visible form. The flow is long for cold traffic.</li>
+      <li>The 90-second online assessment is mentioned but buried. It should be the main event, not a line in the agenda.</li>
+    </ul></div>
+    <div class="verdict"><strong>Verdict:</strong> Stop sending cold traffic to a single live date. Keep the headline, cut the page by half and move the assessment to the top (see the Game Plan tab).</div>
+  </div>
+
+  <div class="fcard">
+    <div class="fcard-head"><div><div class="fcard-title">2 · Webinar Replay</div><div class="fcard-url"><a href="https://www.resetu.com/r3-replay" target="_blank" rel="noopener">resetu.com/r3-replay</a></div></div><span class="badge fail">Fix Now</span></div>
+    <div class="card-text"><ul>
+      <li>Headline: "The Proven 3-Step Protocol Helping High Performers <strong>Eliminate Chronic Pain</strong> &amp; Rebuild Their Bodies in Just 4 Weeks." That's a timed health outcome, Meta's highest-risk claim type.</li>
+      <li>Benefit copy claims it will "increase sex hormone production" and "heal the gut." Both are high risk on Meta and with regulators.</li>
+      <li>Testimonials are images only, with no text. The "Yes, I'll be there" button for the Wednesday live session has no link.</li>
+      <li>The CTAs ("Reset My Body") go to the call page, which is the right destination.</li>
+    </ul></div>
+    <div class="verdict"><strong>Verdict:</strong> Rewrite the headline and benefit blocks this week (safer versions are in the Creative + Compliance tab). Keep the countdown and the call CTA.</div>
+  </div>
+
+  <div class="fcard">
+    <div class="fcard-head"><div><div class="fcard-title">3 · Live Webinar (Stefan Georgi list)</div><div class="fcard-url"><a href="https://www.resetu.com/stefanbrain" target="_blank" rel="noopener">resetu.com/stefanbrain</a></div></div><span class="badge pass">Keep + Systemize</span></div>
+    <div class="card-text"><ul>
+      <li>It works because the trust is borrowed: Stefan's audience already believes him, and he calls you "hands down the best trainer on earth."</li>
+      <li>The headline says "3,137 Busy Parents 35+ have dropped 8 to 16 pounds, <strong>fired their chiropractor, and improved bloodwork</strong> in 30 days." That's fine for a private email list, but not for anything that goes into a Meta ad.</li>
+      <li>The page says "This won't be recorded" and "No replay," but a replay page exists. The date says May 27, and it calls itself a 60-minute session.</li>
+      <li>The hero says 3,137 clients while later sections say "over 3,000." Pick one number.</li>
+    </ul></div>
+    <div class="verdict"><strong>Verdict:</strong> This is your best acquisition channel. Turn it into a repeatable JV template (one page, swap the partner name and date) and run it every month.</div>
+  </div>
+
+  <div class="fcard">
+    <div class="fcard-head"><div><div class="fcard-title">4 · 30-Day Reset Kit</div><div class="fcard-url"><a href="https://www.resetu.com/reset-kit" target="_blank" rel="noopener">resetu.com/reset-kit</a></div></div><span class="badge info">Move</span></div>
+    <div class="card-text"><ul>
+      <li>It stacks six items with a stated value of $1,888 against a price of $129. The homepage says $127, and the form says $97.</li>
+      <li>The guarantee promises a "significant reduction or <strong>even complete elimination</strong>" of pain in 30 days. That's high risk.</li>
+      <li>It includes a $500 "bonus" strategy call. So the call that's meant to sell your coaching is given away inside a $129 product.</li>
+    </ul></div>
+    <div class="verdict"><strong>Verdict:</strong> Don't make this the front door. Use it as a downsell for people who aren't ready for coaching after the call, at one price.</div>
+  </div>
+
+  <div class="fcard">
+    <div class="fcard-head"><div><div class="fcard-title">5 · $1, 14-Day Trial</div><div class="fcard-url"><a href="https://www.resetu.com/2-week-trial-356374" target="_blank" rel="noopener">resetu.com/2-week-trial-356374</a></div></div><span class="badge fail">Kill for Cold</span></div>
+    <div class="card-text"><ul>
+      <li>The trial converts to <strong>$197/mo</strong>, which undercuts your $497 Group tier and teaches new clients your coaching is worth $197.</li>
+      <li>The terms conflict: "Cancel before Day 15" in one place, "before day 14" in the guarantee, and a separate first-month refund in the FAQ.</li>
+      <li>The page title says "Eliminate Pain &amp; Lose Weight in 4 Weeks." Founder experience is listed as both 16 years and 11 years on the same page.</li>
+      <li>A $1 offer attracts people who sign up for trials, not people who buy coaching.</li>
+    </ul></div>
+    <div class="verdict"><strong>Verdict:</strong> Retire it for paid traffic. If you want to keep it, use it only as a win-back offer for past clients.</div>
+  </div>
+
+  <div class="sub-head">Consistency check: what a prospect sees across your pages</div>
+  <div class="tbl-wrap">
+    <table class="pitch-table">
+      <thead><tr><th>Element</th><th>What the pages say</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td>Years in business</td><td>10+, 11, 12 and 16 years, depending on the page</td><td>Pick one number and use it everywhere</td></tr>
+        <tr><td>Client count</td><td>"Over 3,000" and "3,137"</td><td>One number, updated each quarter</td></tr>
+        <tr><td>Reset Kit price</td><td>$97 (form), $127 (homepage), $129 (kit page), "valued at $1,888"</td><td>One price, used only as a downsell</td></tr>
+        <tr><td>Method name</td><td>R3 (Reset, Rebuild, Reclaim), "Bio Reset," and four pillars</td><td>R3 is the brand; the pillars sit under it</td></tr>
+        <tr><td>Who it's for</td><td>"High performers," "busy parents 35+," entrepreneurs and CEOs</td><td>One avatar per funnel (see Where You Stand)</td></tr>
+        <tr><td>Webinar length</td><td>Not stated, ~30 min, 60 min, and 25 min (per your Loom)</td><td>A 10-minute on-demand training</td></tr>
+        <tr><td>Event dates</td><td>September 8, May 27, "this Wednesday"</td><td>Evergreen pages, or update dates automatically</td></tr>
+        <tr><td>Testimonial attribution</td><td>Justin Sardi's name appears under Shannon Watkins's quote on the live page</td><td>Fix before any traffic goes to it</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer><div class="footer-logo">IFCA · Impact Fitness Coaching Academy</div><div class="footer-text">Funnel pages reviewed October 12, 2026.</div></footer>
+</div>
+<div class="panel" id="panel-creative"><div class="hero" style="padding:40px 32px 28px"><div class="hero-inner">
+  <div class="hero-label">Glenn Dawson · Reset-U · IFCA Business Audit</div>
+  <div class="hero-name" style="font-size:clamp(34px,4.5vw,52px)">Creative + Compliance</div>
+  <div class="hero-subtitle" style="margin-bottom:0">What to say in ads, what to stop saying, and who to learn from.</div></div></div><div class="section" id="creative">
+  <div class="section-header">
+    <div class="section-number">Creative Intelligence + Compliance</div>
+    <div class="section-title">What to Say, What to Stop Saying, Who to Learn From</div>
+    <div class="section-desc">From a Meta Ad Library sweep, a competitor and adjacent-advertiser review, and a Meta health-policy review of your live pages (October 12, 2026).</div>
+  </div>
+
+  <div class="card orange-left" style="margin-bottom:16px">
+    <div class="card-title">Executive Summary</div>
+    <div class="card-text">The searches for "resetu," "Glenn Dawson," "Reset U," "R3 Reset Method" and "ResetU Fitness" turned up <strong>no clearly identifiable Reset-U ads</strong> in the public Ad Library, so there are no proven past winners to build on. That's useful: it's a clean restart. Your most ad-worthy asset isn't "pain relief." It's the <strong>18-second broomstick squat screen</strong>, reviewed by a coach or a DPT. It's visual, self-explanatory, built for short-form video, and it bridges naturally from curiosity to a call. Make it the "proof object" in every cold ad.</div>
+  </div>
+
+  <div class="sub-head">Meta health-policy swap table (fix before any ads go live)</div>
+  <div class="tbl-wrap">
+    <table class="pitch-table">
+      <thead><tr><th>Current copy (where)</th><th>Risk</th><th>Safer version</th></tr></thead>
+      <tbody>
+        <tr><td>"Eliminate Chronic Pain &amp; Rebuild Their Bodies in Just 4 Weeks" (replay)</td><td><span class="badge fail">High</span> Timed health outcome</td><td><em>"The 3-step R3 system high performers use to move, train and travel with more confidence."</em></td></tr>
+        <tr><td>"Pain Free, Powerful, and Proud of your Body in 30 days or refund" (core promise)</td><td><span class="badge fail">High</span> Absolute claim plus a timeframe</td><td><em>"Strength, mobility and recovery coaching built around your movement screen. Follow it for 30 days or your money back."</em></td></tr>
+        <tr><td>"Increase sex hormone production," "Reset your hormones" (replay, Stefan page)</td><td><span class="badge fail">High</span> Medical claim</td><td><em>"Personalized training, nutrition and recovery routines."</em></td></tr>
+        <tr><td>"Fired their chiropractor, improved bloodwork in 30 days" (Stefan page)</td><td><span class="badge fail">High</span> Medical comparison plus a timeframe</td><td>Keep for private email lists only. Never in ads or ad destinations.</td></tr>
+        <tr><td>Autoimmune and Hashimoto's outcomes, "back pain cured in 1 week" (testimonials)</td><td><span class="badge fail">High</span> Disease claims</td><td>Remove from paid destinations. Re-cut the case studies around behavior and capacity ("why I chose this, what changed in my routine").</td></tr>
+        <tr><td>"Doctor-led" (homepage meta description)</td><td><span class="badge warn">Medium</span> Implies medical supervision</td><td><em>"Co-created with Dr. Brianna Dawson, Doctor of Physical Therapy."</em></td></tr>
+        <tr><td>"Do you have recurring pain?" style hooks</td><td><span class="badge warn">Medium</span> Asserts a personal health attribute</td><td><em>"For adults 35+ who want to train hard without breaking down."</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sub-head">Competitive benchmark</div>
+  <div class="tbl-wrap">
+    <table class="pitch-table">
+      <thead><tr><th>Brand</th><th>What they do well</th><th>What Reset-U should take from it</th></tr></thead>
+      <tbody>
+        <tr><td>The Ready State</td><td>A free mobility test produces a score, then a clear path: Assess, Mobilize, Strengthen, Sustain</td><td>Score-first funnel. Your edge: a human (Glenn or a DPT) reviews the screen; their app doesn't.</td></tr>
+        <tr><td>Prehab (The Prehab Guys)</td><td>PT credibility with careful, category-level claims</td><td>Clinical authority doesn't need cure language</td></tr>
+        <tr><td>Scott Laidler</td><td>Sells to executives as "outsource your health decisions"</td><td>The closest messaging model. Own "a system that fits a demanding schedule."</td></tr>
+        <tr><td>BEAT Executive Program</td><td>Time efficiency, performance and long-term capacity for CEOs</td><td>Lead with return on time and physical capacity, not looks</td></tr>
+        <tr><td>Function Health (adjacent)</td><td>Baseline, clinician insight, act, retest. $365/yr membership.</td><td>A visible re-screen every 30 days, so progress is something clients can see</td></tr>
+        <tr><td>WHOOP / InsideTracker (adjacent)</td><td>One metric, a weekly loop, a simple dashboard</td><td>An R3 scorecard (Movement, Recovery, Fuel) that clients see weekly</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sub-head">White space Reset-U can own</div>
+  <div class="card purple-left">
+    <div class="card-text" style="font-size:15px;color:#dbe5f0"><strong>"A movement screen reviewed by a coach or a Doctor of Physical Therapy, plus strength, recovery and nutrition systems that travel with high-performing adults."</strong> It's more concrete than "biohacking," safer than "cure your pain," and more premium than generic fat-loss coaching.</div>
+  </div>
+
+  <div class="sub-head">Creative entity build queue (first 6 ads)</div>
+  <div class="grid-3">
+    <div class="card purple-left"><div class="card-title">1 · The 18-Second Screen</div><div class="card-text">Glenn demonstrates the broomstick squat with three on-screen markers. CTA: "Send us yours." TOF.</div></div>
+    <div class="card purple-left"><div class="card-title">2 · What a DPT Looks For</div><div class="card-text">Brianna marks up a real screen, Madden style. Authority comes from her credential, not from claims. TOF/MOF.</div></div>
+    <div class="card purple-left"><div class="card-title">3 · More Work Isn't the Answer</div><div class="card-text">Glenn and Brianna alternate: assess, mobilize, strengthen. It positions R3 as a system, not a workout library. TOF.</div></div>
+    <div class="card purple-left"><div class="card-title">4 · The Capacity Test</div><div class="card-text">Real moments: carrying luggage, getting up off the floor, a hotel gym, playing with the kids. Capacity, not pain. TOF.</div></div>
+    <div class="card purple-left"><div class="card-title">5 · Founder Proof Doc</div><div class="card-text">A 30 to 45 second cut from the 70 interviews: why a business owner chose R3 and what changed in their routine. MOF.</div></div>
+    <div class="card purple-left"><div class="card-title">6 · Decision Load</div><div class="card-text">"Fitness shouldn't be another department you manage." Reset-U handles the plan, and the client just executes. BOF retarget.</div></div>
+  </div>
+
+  <div class="sub-head" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span>Verbatim hook bank (policy-safe)</span><button class="copy-btn" id="copyHooks" onclick="copyHooks()">Copy Hooks</button></div>
+  <ol class="hook-list" id="hookList">
+    <li>Grab a broomstick. Give me 18 seconds. I'll show you where your training is leaking.<span class="hook-meta">Screen demo · TOF · Glenn</span></li>
+    <li>This is what a Doctor of Physical Therapy looks for when you squat.<span class="hook-meta">Authority markup · TOF · Brianna</span></li>
+    <li>Your workout isn't the problem. The order you do it in is.<span class="hook-meta">Old way vs. new way · TOF</span></li>
+    <li>After 40, more intensity is rarely the next move.<span class="hook-meta">Contrarian · TOF</span></li>
+    <li>If your training only works when you're home, it isn't a system.<span class="hook-meta">Travel and executive lane · TOF</span></li>
+    <li>Former athlete? Here's why the program that built you stopped working.<span class="hook-meta">Identity · TOF</span></li>
+    <li>Fitness shouldn't be another department you have to manage.<span class="hook-meta">Decision load · MOF/BOF</span></li>
+    <li>I've reviewed thousands of these squat screens. This is the pattern I see most.<span class="hook-meta">Pattern interrupt · TOF</span></li>
+    <li>He writes some of the most successful ads in the world. Here's why he hired a trainer.<span class="hook-meta">Founder proof · MOF · needs written consent</span></li>
+    <li>Three things a movement screen shows that a mirror never will.<span class="hook-meta">Listicle · TOF</span></li>
+  </ol>
+</div>
+
+<footer><div class="footer-logo">IFCA · Impact Fitness Coaching Academy</div><div class="footer-text">Marketing guidance, not legal advice. Have counsel review health claims before publishing.</div></footer>
+</div>
+
+<script>
+function switchTab(t){
+  ['stand','plan','funnel','creative'].forEach(function(k){
+    document.getElementById('panel-'+k).classList.toggle('active',k===t);
+    document.getElementById('btn-'+k).classList.toggle('active',k===t);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  try{history.replaceState(null,'','#'+t)}catch(e){}
+}
+(function(){var h=(location.hash||'').replace('#','');if(['plan','funnel','creative'].indexOf(h)>-1)switchTab(h)})();
+function copyHooks(){
+  var items=document.querySelectorAll('#hookList li');
+  var out='Glenn Dawson / Reset-U: Policy-Safe Hook Bank\n\n';
+  items.forEach(function(li,i){var meta=li.querySelector('.hook-meta');var hook=li.childNodes[0].textContent.trim();out+=(i+1)+'. '+hook+(meta?' ('+meta.textContent.trim()+')':'')+'\n';});
+  var btn=document.getElementById('copyHooks');
+  function done(){btn.textContent='Copied';btn.classList.add('done');setTimeout(function(){btn.textContent='Copy Hooks';btn.classList.remove('done')},2000)}
+  function fallback(){var ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){}document.body.removeChild(ta)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(out).then(done,fallback)}else{fallback()}
+}
+</script>
+</body>
+</html>
